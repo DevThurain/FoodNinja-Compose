@@ -2,14 +2,25 @@ package com.thurainx.foodninja.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.thurainx.foodninja.R
+
+val Bentonsans = FontFamily(
+    Font(R.font.bentonsans_medium),
+    Font(R.font.bentonsans_black, FontWeight.Bold)
+)
+
+val Viga = FontFamily(
+    Font(R.font.viga_regular)
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = Bentonsans,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
