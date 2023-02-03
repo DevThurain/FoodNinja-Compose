@@ -21,6 +21,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.thurainx.foodninja.R
 import com.thurainx.foodninja.core.Routes
+import com.thurainx.foodninja.features.components.FoodPatternBackground
+import com.thurainx.foodninja.features.components.LogoAndText
 import com.thurainx.foodninja.ui.theme.*
 import kotlinx.coroutines.delay
 
@@ -36,26 +38,9 @@ fun SplashScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painterResource(id = R.drawable.app_logo),
-                "",
-                modifier = Modifier.size(width = SIZE_APP_LOGO, height = SIZE_APP_LOGO)
-            )
-            Text(
-                text = "FoodNinja",
-                style = TextStyle(color = Green, fontSize = TEXT_HEADING_2X, fontFamily = Viga)
-            )
-            Text(
-                text = "Deliver Favorite Food",
-                style = TextStyle(
-                    color = MaterialTheme.colors.onPrimary,
-                    fontSize = TEXT_REGULAR,
-                    fontWeight = FontWeight.Bold
-                )
-            )
-
+            LogoAndText()
         }
-        BackgroundFoodPattern()
+        FoodPatternBackground()
 
     }
 
@@ -63,35 +48,11 @@ fun SplashScreen(navController: NavController) {
         delay(2000L)
         navController.popBackStack()
         navController.navigate(Routes.IntroductionOneScreen)
-
     }
 
 }
 
-@Composable
-fun BackgroundFoodPattern() {
-    Image(
-        painter = painterResource(id = R.drawable.food_pattern),
-        contentDescription = "",
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(320.dp)
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(320.dp)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        MaterialTheme.colors.background
-                    )
-                )
-            )
-    )
 
-}
 
 @Composable
 @Preview(showBackground = true)

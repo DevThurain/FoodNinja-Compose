@@ -23,6 +23,7 @@ import com.thurainx.foodninja.core.Routes
 import com.thurainx.foodninja.features.splash.SplashScreen
 import com.thurainx.foodninja.features.intro.IntroductionOneScreen
 import com.thurainx.foodninja.features.intro.IntroductionTwoScreen
+import com.thurainx.foodninja.features.register.RegisterScreen
 import com.thurainx.foodninja.ui.theme.FoodNinjaTheme
 
 class MainActivity : ComponentActivity() {
@@ -73,6 +74,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = Routes.IntroductionTwoScreen){
                         IntroductionTwoScreen(navController = navController)
+                    }
+                    composable(route = Routes.RegisterScreen){
+                        RegisterScreen(navController = navController)
                     }
                 }
 
