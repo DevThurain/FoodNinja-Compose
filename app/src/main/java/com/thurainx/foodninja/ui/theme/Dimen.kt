@@ -30,3 +30,4 @@ val TEXT_BIG_3X = 80.sp
 
 // App Specific
 val SIZE_APP_LOGO = 200.dp
+val SIZE_INTRO_LOGO = 320.dp
