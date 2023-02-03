@@ -13,6 +13,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
 // Remember a SystemUiController
 
@@ -44,6 +47,8 @@ class MainActivity : ComponentActivity() {
                         color = background,
                         darkIcons = useDarkIcons
                     )
+
+                    window.decorView.setBackgroundColor(background.toArgb())
 
                     // setStatusBarColor() and setNavigationBarColor() also exist
 
