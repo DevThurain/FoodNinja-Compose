@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val navController = rememberAnimatedNavController()
-                AnimatedNavHost(navController = navController, startDestination = Routes.SplashScreen,
+                AnimatedNavHost(navController = navController, startDestination = Routes.RegisterScreen,
                     enterTransition = {
                         slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
                     },
