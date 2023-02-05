@@ -10,7 +10,8 @@ import com.thurainx.foodninja.R
 
 val Bentonsans = FontFamily(
     Font(R.font.bentonsans_medium),
-    Font(R.font.bentonsans_black, FontWeight.Bold)
+    Font(R.font.bentonsans_black, FontWeight.Bold),
+    Font(R.font.bentonsans_extra_light, FontWeight.ExtraLight)
 )
 
 val Viga = FontFamily(
