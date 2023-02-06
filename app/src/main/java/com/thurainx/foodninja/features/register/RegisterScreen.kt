@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -201,12 +202,22 @@ fun RegisterScreen(navController: NavController) {
                     .padding(horizontal = MARGIN_MEDIUM_2),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CustomCheckBox(onCheckChanged = {})
+                CustomCheckBox(onCheckChanged = {
+                    isCheckedKeepSignIn.value = !isCheckedKeepSignIn.value
+                }, isChecked = isCheckedKeepSignIn.value)
                 Box(modifier = Modifier.width(MARGIN_MEDIUM_2))
                 Text(
                     text = "Keep Me Signed In",
+                    color = MaterialTheme.colors.onPrimary,
                     fontWeight = FontWeight.W300,
-                    style = TextStyle(letterSpacing = 0.7.sp)
+                    style = TextStyle(letterSpacing = 0.7.sp),
+                    modifier = Modifier.clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null,
+                        onClick = {
+                            isCheckedKeepSignIn.value = !isCheckedKeepSignIn.value
+                        }
+                    )
                 )
             }
             Box(modifier = Modifier.height(MARGIN_MEDIUM_2))
@@ -217,12 +228,22 @@ fun RegisterScreen(navController: NavController) {
                     .padding(horizontal = MARGIN_MEDIUM_2),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CustomCheckBox(onCheckChanged = {})
+                CustomCheckBox(onCheckChanged = {
+                    isCheckSpecialPricing.value = !isCheckSpecialPricing.value
+                }, isChecked = isCheckSpecialPricing.value)
                 Box(modifier = Modifier.width(MARGIN_MEDIUM_2))
                 Text(
                     text = "Email Me About Special Pricing",
+                    color = MaterialTheme.colors.onPrimary,
                     fontWeight = FontWeight.W300,
-                    style = TextStyle(letterSpacing = 0.7.sp)
+                    style = TextStyle(letterSpacing = 0.7.sp),
+                    modifier = Modifier.clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null,
+                        onClick = {
+                            isCheckSpecialPricing.value = !isCheckSpecialPricing.value
+                        }
+                    ),
                 )
             }
             Box(modifier = Modifier.height(MARGIN_XLARGE))
@@ -250,19 +271,16 @@ fun RegisterScreen(navController: NavController) {
 }
 
 @Composable
-fun CustomCheckBox(onCheckChanged: (Boolean) -> Unit) {
-    val isChecked = remember {
-        mutableStateOf(false)
-    }
+fun CustomCheckBox(isChecked: Boolean, onCheckChanged: (Boolean) -> Unit) {
+
 
     IconButton(
         modifier = Modifier.size(MARGIN_LARGE - MARGIN_SMALL),
         onClick = {
-            isChecked.value = !isChecked.value
-            onCheckChanged(isChecked.value)
+            onCheckChanged(isChecked)
 
         }) {
-        if (!isChecked.value) {
+        if (!isChecked) {
             Box(
                 modifier = Modifier
                     .size(MARGIN_LARGE - MARGIN_SMALL)
