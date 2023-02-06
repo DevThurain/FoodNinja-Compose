@@ -6,6 +6,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,10 +16,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
@@ -34,7 +39,9 @@ import com.thurainx.foodninja.features.components.FoodPatternBackground
 import com.thurainx.foodninja.features.components.GradientButton
 import com.thurainx.foodninja.features.components.LogoAndText
 import com.thurainx.foodninja.ui.theme.*
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RegisterScreen(navController: NavController) {
     val textPassword = remember {
@@ -49,6 +56,10 @@ fun RegisterScreen(navController: NavController) {
     val isCheckSpecialPricing = remember {
         mutableStateOf(false)
     }
+
+    val focusManager = LocalFocusManager.current
+    val coroutineScope = rememberCoroutineScope()
+    val bringIntoViewRequester = BringIntoViewRequester()
 
     Box(
         modifier = Modifier
@@ -176,7 +187,10 @@ fun RegisterScreen(navController: NavController) {
                         )
                     }
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    focusManager.clearFocus()
+                }),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     disabledBorderColor = GreyBorder,
                     unfocusedBorderColor = MaterialTheme.colors.surface,
@@ -191,7 +205,14 @@ fun RegisterScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .padding(horizontal = MARGIN_MEDIUM_2)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .onFocusEvent { event ->
+                        if (event.isFocused) {
+                            coroutineScope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    },
 
                 )
             Box(modifier = Modifier.height(MARGIN_MEDIUM_2 + MARGIN_SMALL))
@@ -261,7 +282,7 @@ fun RegisterScreen(navController: NavController) {
                 color = Green,
                 textAlign = TextAlign.Center,
                 fontSize = TEXT_SMALL,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().bringIntoViewRequester(bringIntoViewRequester)
             )
             Box(modifier = Modifier.height(MARGIN_XLARGE))
 

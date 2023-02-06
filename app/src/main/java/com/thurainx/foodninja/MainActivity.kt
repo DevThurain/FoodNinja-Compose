@@ -21,6 +21,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.thurainx.foodninja.core.Routes
+import com.thurainx.foodninja.features.bio.BioScreen
 import com.thurainx.foodninja.features.splash.SplashScreen
 import com.thurainx.foodninja.features.intro.IntroductionOneScreen
 import com.thurainx.foodninja.features.intro.IntroductionTwoScreen
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val navController = rememberAnimatedNavController()
-                AnimatedNavHost(navController = navController, startDestination = Routes.RegisterScreen,
+                AnimatedNavHost(navController = navController, startDestination = Routes.BioScreen,
                     enterTransition = {
                         slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
                     },
@@ -84,6 +85,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = Routes.RegisterScreen){
                         RegisterScreen(navController = navController)
+                    }
+                    composable(route = Routes.BioScreen){
+                        BioScreen(navController = navController)
                     }
                 }
 
