@@ -27,6 +27,7 @@ import com.thurainx.foodninja.features.intro.IntroductionOneScreen
 import com.thurainx.foodninja.features.intro.IntroductionTwoScreen
 import com.thurainx.foodninja.features.payment_methods.PaymentMethodScreen
 import com.thurainx.foodninja.features.register.RegisterScreen
+import com.thurainx.foodninja.features.upload_photo.UploadPhotoScreen
 import com.thurainx.foodninja.ui.theme.FoodNinjaTheme
 
 class MainActivity : ComponentActivity() {
@@ -66,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val navController = rememberAnimatedNavController()
-                AnimatedNavHost(navController = navController, startDestination = Routes.PaymentMethodScreen,
+                AnimatedNavHost(navController = navController, startDestination = Routes.UploadPhotoScreen,
                     enterTransition = {
                         slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
                     },
@@ -92,6 +93,9 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(route = Routes.PaymentMethodScreen){
                         PaymentMethodScreen(navController = navController)
+                    }
+                    composable(route = Routes.UploadPhotoScreen){
+                        UploadPhotoScreen(navController = navController)
                     }
                 }
 

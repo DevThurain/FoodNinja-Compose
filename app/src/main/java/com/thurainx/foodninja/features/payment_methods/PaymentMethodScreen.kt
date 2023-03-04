@@ -1,15 +1,14 @@
 package com.thurainx.foodninja.features.payment_methods
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +27,9 @@ import com.thurainx.foodninja.ui.theme.*
 
 @Composable
 fun PaymentMethodScreen(navController: NavController) {
+    val selectedPayment = remember {
+        mutableStateOf("Paypal")
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +46,9 @@ fun PaymentMethodScreen(navController: NavController) {
 
             IconButton(modifier = Modifier
                 .size(45.dp)
-                .padding(0.dp), onClick = { }) {
+                .padding(0.dp), onClick = {
+                navController.popBackStack()
+            }) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "",
@@ -80,8 +84,19 @@ fun PaymentMethodScreen(navController: NavController) {
                             .fillMaxWidth()
                             .padding(top = MARGIN_MEDIUM_2)
                             .clip(RoundedCornerShape(MARGIN_MEDIUM_2))
+                            .border(
+                                width = 2.dp,
+                                color = if (selectedPayment.value == payment.name) Green else MaterialTheme.colors.surface,
+                                shape = RoundedCornerShape(
+                                    MARGIN_MEDIUM_2
+                                )
+                            )
                             .background(color = MaterialTheme.colors.surface)
+                            .clickable {
+                                selectedPayment.value = payment.name
+                            }
                             .padding(vertical = MARGIN_MEDIUM_2)
+
 
                     ) {
                         Image(

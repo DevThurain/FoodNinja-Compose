@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.thurainx.foodninja.R
+import com.thurainx.foodninja.core.Routes
 import com.thurainx.foodninja.features.components.GradientButton
 import com.thurainx.foodninja.ui.theme.*
 
@@ -56,7 +57,9 @@ fun IntroductionTwoScreen(navController: NavController){
             )
         )
         Box(modifier = Modifier.height(MARGIN_LARGE))
-        GradientButton(text = "Next", modifier = Modifier.wrapContentWidth())
+        GradientButton(text = "Next", modifier = Modifier.wrapContentWidth()){
+            navController.navigate(Routes.RegisterScreen)
+        }
     }
 }
 

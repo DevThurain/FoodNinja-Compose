@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.thurainx.foodninja.R
+import com.thurainx.foodninja.core.Routes
 import com.thurainx.foodninja.features.components.FoodPatternBackground
 import com.thurainx.foodninja.features.components.GradientButton
 import com.thurainx.foodninja.features.components.LogoAndText
@@ -273,7 +274,9 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                GradientButton(text = "Create Account")
+                GradientButton(text = "Create Account"){
+                    navController.navigate(Routes.BioScreen)
+                }
             }
             Box(modifier = Modifier.height(MARGIN_MEDIUM))
 

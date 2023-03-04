@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.thurainx.foodninja.R
+import com.thurainx.foodninja.core.Routes
 import com.thurainx.foodninja.features.components.FoodPatternBackground
 import com.thurainx.foodninja.features.components.FoodPatternBackgroundTriangle
 import com.thurainx.foodninja.features.components.GradientButton
@@ -29,9 +30,11 @@ import com.thurainx.foodninja.ui.theme.*
 @Composable
 fun BioScreen(navController: NavController) {
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = MaterialTheme.colors.background)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.background)
+    ) {
         FoodPatternBackgroundTriangle()
 
         Column(
@@ -43,7 +46,9 @@ fun BioScreen(navController: NavController) {
 
             IconButton(modifier = Modifier
                 .size(45.dp)
-                .padding(0.dp), onClick = { }) {
+                .padding(0.dp), onClick = {
+                navController.popBackStack()
+            }) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "",
@@ -152,7 +157,9 @@ fun BioScreen(navController: NavController) {
             Box(modifier = Modifier.weight(1f))
 
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                GradientButton(text = "Next")
+                GradientButton(text = "Next") {
+                    navController.navigate(Routes.PaymentMethodScreen)
+                }
             }
             Box(modifier = Modifier.height(MARGIN_LARGE))
 
