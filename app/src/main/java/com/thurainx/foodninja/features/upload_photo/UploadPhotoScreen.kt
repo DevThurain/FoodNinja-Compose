@@ -1,6 +1,9 @@
 package com.thurainx.foodninja.features.upload_photo
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContract
@@ -20,28 +23,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 import com.thurainx.foodninja.R
+import com.thurainx.foodninja.features.components.CameraPermissionTextProvider
 import com.thurainx.foodninja.features.components.FoodPatternBackgroundTriangle
+import com.thurainx.foodninja.features.components.PermissionDialog
 import com.thurainx.foodninja.ui.theme.*
 
 @Composable
 fun UploadPhotoScreen(navController: NavController) {
+    val uploadPhotoViewModel = viewModel<UploadPhotoViewModel>()
+    val activity = LocalContext.current as Activity
+
     var selectedPhoto by remember {
         mutableStateOf<Uri?>(null)
     }
+
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
             selectedPhoto = uri
         })
+//
+//    val cameraLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.TakePicture(),
+//        onResult = { uri ->
+//            selectedPhoto = uri
+//
+//        }
+//    )
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            uploadPhotoViewModel.onPermissionResult(
+                permission = android.Manifest.permission.CAMERA,
+                isGranted = isGranted
+            )
+        }
+    )
 
     Box(
         modifier = Modifier
@@ -96,7 +126,9 @@ fun UploadPhotoScreen(navController: NavController) {
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
                     },
-                    onTapCamera = {}
+                    onTapCamera = {
+                        cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                    }
                 )
             } else {
                 Box(modifier = Modifier.height(MARGIN_MEDIUM_2))
@@ -105,8 +137,27 @@ fun UploadPhotoScreen(navController: NavController) {
                 })
             }
 
+            uploadPhotoViewModel.permissionQueue.forEach {permission ->
+                PermissionDialog(
+                    permissionTextProvider = CameraPermissionTextProvider(),
+                    isPermanentlyDeclined = !shouldShowRequestPermissionRationale(activity, permission),
+                    onDismiss = { uploadPhotoViewModel.dismissedDialog() },
+                    onOkClick = {
+                                uploadPhotoViewModel.dismissedDialog()
+                                cameraPermissionLauncher.launch(permission)
+                    },
+                    onGoToAppSettingsClick = { activity.openAppSettings() })
+            }
+
         }
     }
+}
+
+fun Activity.openAppSettings() {
+    Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", packageName, null)
+    ).also(::startActivity)
 }
 
 @Composable
