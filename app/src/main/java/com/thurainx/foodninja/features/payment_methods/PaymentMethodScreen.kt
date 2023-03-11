@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.thurainx.foodninja.R
 import com.thurainx.foodninja.core.Constants
+import com.thurainx.foodninja.core.Routes
 import com.thurainx.foodninja.features.components.FoodPatternBackgroundTriangle
 import com.thurainx.foodninja.features.components.GradientButton
 import com.thurainx.foodninja.ui.theme.*
@@ -117,7 +118,9 @@ fun PaymentMethodScreen(navController: NavController) {
 //            Box(modifier = Modifier.weight(1f))
 
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                GradientButton(text = "Next")
+                GradientButton(text = "Next"){
+                    navController.navigate(Routes.UploadPhotoScreen)
+                }
             }
             Box(modifier = Modifier.height(MARGIN_LARGE))
 
