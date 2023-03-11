@@ -1,9 +1,10 @@
 package com.thurainx.foodninja.features.upload_photo
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 
 class UploadPhotoViewModel : ViewModel() {
-    var permissionQueue : ArrayList<String> = arrayListOf()
+    var permissionQueue  = mutableStateListOf<String>()
 
     fun dismissedDialog(){
         permissionQueue.removeFirst()

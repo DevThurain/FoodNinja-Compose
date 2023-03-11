@@ -41,13 +41,14 @@ import com.thurainx.foodninja.features.components.PermissionDialog
 import com.thurainx.foodninja.ui.theme.*
 
 @Composable
-fun UploadPhotoScreen(navController: NavController) {
-    val uploadPhotoViewModel = viewModel<UploadPhotoViewModel>()
+fun UploadPhotoScreen(navController: NavController, uploadPhotoViewModel: UploadPhotoViewModel = viewModel<UploadPhotoViewModel>()) {
     val activity = LocalContext.current as Activity
 
     var selectedPhoto by remember {
         mutableStateOf<Uri?>(null)
     }
+
+
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
